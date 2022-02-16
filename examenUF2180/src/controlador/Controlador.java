@@ -23,6 +23,7 @@ public class Controlador {
 	private VentanaPpal ventanaPpal;
 	private VentanaMostrarCentros ventanaMostrarCentros;
 	private DialogoAñadirCentro dialogoAñadirCentro;
+
 	
 	// Objetos DAO o CRUD de la base de datos
 	private CentroDAO centroDAO;
