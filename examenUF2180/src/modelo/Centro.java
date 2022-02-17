@@ -103,7 +103,7 @@ public class Centro {
 
 	@Override
 	public String toString() {
-		return "Centro [cod_centro=" + cod_centro + ", nombre=" + nombre + ", direccion=" + direccion + "]";
+		return cod_centro+" - "+nombre;
 	}
 	
 	

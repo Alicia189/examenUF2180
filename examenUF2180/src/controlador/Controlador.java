@@ -3,14 +3,19 @@
  */
 package controlador;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
 import dao.CentroDAO;
+import dao.DepartamentoDAO;
 import modelo.Centro;
+import modelo.Departamento;
 import vista.DialogoAñadirCentro;
+import vista.DialogoAñadirDepartamento;
 import vista.VentanaMostrarCentros;
+import vista.VentanaMostrarDepartamentos;
 import vista.VentanaPpal;
 
 /**
@@ -23,9 +28,12 @@ public class Controlador {
 	private VentanaPpal ventanaPpal;
 	private VentanaMostrarCentros ventanaMostrarCentros;
 	private DialogoAñadirCentro dialogoAñadirCentro;
+	private VentanaMostrarDepartamentos ventanaMostrarDepartamentos;
+	private DialogoAñadirDepartamento dialogoAñadirDepartamento;
 	
 	// Objetos DAO o CRUD de la base de datos
 	private CentroDAO centroDAO;
+	private DepartamentoDAO departamentoDAO;
 
 	
 	
@@ -34,15 +42,20 @@ public class Controlador {
 		ventanaPpal = new VentanaPpal();
 		ventanaMostrarCentros = new VentanaMostrarCentros();
 		dialogoAñadirCentro = new DialogoAñadirCentro();
+		ventanaMostrarDepartamentos = new VentanaMostrarDepartamentos();
+		dialogoAñadirDepartamento = new DialogoAñadirDepartamento();
 		
 		// Dando acceso al controlador desde las vistas
 		ventanaPpal.setControlador(this);
 		ventanaMostrarCentros.setControlador(this);
 		dialogoAñadirCentro.setControlador(this);
+		ventanaMostrarDepartamentos.setControlador(this);
+		dialogoAñadirDepartamento.setControlador(this);
 
 		
 		// Creamos los objetos DAO
 		centroDAO = new CentroDAO();
+		departamentoDAO = new DepartamentoDAO();
 	}
 	
 	
@@ -62,6 +75,12 @@ public class Controlador {
 	public void mostrarInsertarCentros() {
 		dialogoAñadirCentro.setVisible(true);
 	}
+	
+	public void mostrarListarDepartamentos() {
+		ArrayList<Departamento> lista = departamentoDAO.obtenerDepartamentos();
+		ventanaMostrarDepartamentos.setListaDepartamentos(lista);
+		ventanaMostrarDepartamentos.setVisible(true);
+	}
 
 
 	/** 
@@ -79,5 +98,20 @@ public class Controlador {
 		}
 	}
 	
+	public void mostrarInsertarDepartamemtos() {
+		ArrayList<Centro> lista = centroDAO.obtenerCentros();
+		dialogoAñadirDepartamento.setListaCentros(lista);
+		dialogoAñadirDepartamento.setVisible(true);
+	}
 	
+	public void insertaDepartamento(Departamento dpto) throws SQLException {
+		// Invocando a centroDAO
+		int resultado = departamentoDAO.insertarDepartamento(dpto);
+		if (resultado ==0) {
+			JOptionPane.showMessageDialog(dialogoAñadirCentro, "Error. no se ha podido insertar.");
+		} else {
+			JOptionPane.showMessageDialog(dialogoAñadirCentro, "Insercion del centro correcta");
+			dialogoAñadirCentro.setVisible(false);
+		}
+	}
 }
